@@ -3,13 +3,12 @@ import { s } from "./Keypad.style";
 import callButton from "../../../assets/CallButton.png";
 import { useNavigation } from "@react-navigation/native";
 
-export function Keypad({onClick}) {
+export function Keypad() {
 
     const nav = useNavigation();
 
     const navGame = () => {
-        //nav.navigate("Game");
-        alert("ran");
+        nav.navigate("Difficulty");
     }
     return (
       <>

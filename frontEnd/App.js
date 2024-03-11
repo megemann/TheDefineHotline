@@ -7,15 +7,20 @@ import { useFonts } from "expo-font";
 import { Home } from "./pages/home/home";
 import * as React from "react";
 import { PaperProvider } from "react-native-paper";
+import { Difficulty } from "./pages/difficulty/difficulty";
+import { Easy } from "./pages/Games/Easy/Easy";
+import { Medium } from "./pages/Games/Medium/Medium";
+import { Hard } from "./pages/Games/Hard/Hard";
+
 
 
 const Stack = createNativeStackNavigator();
 export default function App() {
-
   const [isFontLoaded] = useFonts({
     "InriaSerif-Regular": require("./assets/fonts/InriaSerif-Regular.ttf"),
     "InriaSerif-Bold": require("./assets/fonts/InriaSerif-Bold.ttf"),
     "InriaSerif-Light": require("./assets/fonts/InriaSerif-Light.ttf"),
+    "JockeyOne-Regular": require("./assets/fonts/JockeyOne-Regular.ttf"),
   });
 
 
@@ -31,6 +36,10 @@ export default function App() {
                   initalRouteName="Home"
                 >
                   <Stack.Screen name="Home" component={Home} />
+                  <Stack.Screen name="Difficulty" component={Difficulty} />
+                  <Stack.Screen name= "Easy" component={Easy} />
+                  <Stack.Screen name="Medium" component={Medium} />
+                  <Stack.Screen name="Hard" component={Hard} />
                 </Stack.Navigator>
               )}
             </SafeAreaView>

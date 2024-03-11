@@ -18,11 +18,7 @@ export function Home() {
         </TouchableOpacity>
         <Txt style={s.title}>The Define Hot-line</Txt>
         <View style={s.keypad}>
-          <Keypad
-            onClick={() => {
-              console.log("Clicked");
-            }}
-          />
+          <Keypad/>
         </View>
       </View>
     );
