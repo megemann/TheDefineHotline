@@ -1,10 +1,15 @@
 import { StyleSheet } from "react-native";
 
 export const s = StyleSheet.create({
+    container: {
+        height: "100%",
+        width: "100%", 
+        flex: 1 
+    },
     header: {
-        flex: 3,
+        flexGrow: 2,
     }, 
     body: {
-        flex: 7,
+        flexGrow: 8.5,
     }
 });

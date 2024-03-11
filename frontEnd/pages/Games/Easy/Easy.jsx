@@ -5,10 +5,10 @@ import { GameHeader } from "../../../components/GameHeader/GameHeader";
 
 export function Easy() {
     return (
-        <View>
+        <View style={s.container}>
             <GameHeader style={s.header} />
             <View style={s.body}>
-                
+                <Txt>Easy</Txt>
             </View>
         </View>
     );
