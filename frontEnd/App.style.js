@@ -1,6 +1,8 @@
 import { StyleSheet } from 'react-native';
 
 export const s = StyleSheet.create({
-    container: {
+    background: {
+        backgroundColor: "#827C7C",
+        flex: 1
     },
 });
