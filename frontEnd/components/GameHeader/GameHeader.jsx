@@ -1,16 +1,35 @@
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { s } from "./GameHeader.style";
 import { Txt } from "../Txt/Txt";
+import { useNavigation } from "@react-navigation/native";
 
-export function GameHeader() {
+export function GameHeader({ difficulty, currentDef }) {
+
+    const nav = useNavigation();
+
+    let color = "red";
+    if (difficulty === "Easy") {
+        color = "green";
+    }
+    else if (difficulty === "Medium") {
+        color = "yellow";
+    }
+
     return (
       <View style={s.container}>
         <View style={s.top}>
-          <Txt style={s.backSign}>{"<"}</Txt>
-          <Txt style={s.exit}> Exit</Txt>
+          <TouchableOpacity style={{flexDirection: "row"}} onPress={() => nav.navigate("Home") }>
+            <Txt style={s.backSign}>{"<"}</Txt>
+            <Txt style={s.exit}> Exit</Txt>
+          </TouchableOpacity>
           <View style={s.spacer} />
           <Txt style={s.mode}>Mode: </Txt>
-          <Txt style={s.difficulty}>Easy</Txt>
+          <Txt style={{ 
+            color: color, 
+            fontSize: 15, 
+            paddingTop: "4%" }}>
+              {difficulty}
+          </Txt>
         </View>
         <View style={s.middle}>
           <View style={s.midContainer}>
@@ -26,8 +45,8 @@ export function GameHeader() {
           </View>
         </View>
         <View style={s.bottom}>
-          <Txt style={s.define}>Define:</Txt>
-          <Txt style={s.word}>SOME WORD</Txt>
+          <Txt style={s.define}>Definition:</Txt>
+          <Txt style={s.word}>SOME DEF</Txt>
         </View>
       </View>
     );

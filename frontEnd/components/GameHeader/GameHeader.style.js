@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const s = StyleSheet.create({
   container: {
     flexDirection: "column",
-    flex: 6,
+    flex: 0.5,
   },
   top: {
     flexGrow: 1,
@@ -27,7 +27,6 @@ export const s = StyleSheet.create({
   difficulty: {
     fontSize: 15,
     paddingTop: "4%",
-    color: "green",
   },
   middle: {
     flexGrow: 4,

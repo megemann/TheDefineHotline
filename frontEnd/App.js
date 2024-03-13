@@ -8,18 +8,15 @@ import { Home } from "./pages/home/home";
 import * as React from "react";
 import { PaperProvider } from "react-native-paper";
 import { Difficulty } from "./pages/difficulty/difficulty";
-import { Easy } from "./pages/Game/Easy/Easy";
-import { Medium } from "./pages/Game/Medium/Medium";
-import { Hard } from "./pages/Game/Hard/Hard";
 import { WordAPI } from "./api/vocab";
 import { Game } from "./pages/Game/Game";
-
-
+import { GameLoading } from "./pages/GameLoading/GameLoading";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
 
-  const [difficulty, setDifficulty] = React.useState("Easy");
+  const [routedGame, setRoutedGame] = React.useState(false);
+  const [isLoaded, setIsLoaded] = React.useState(false);
   const [gameContent, setGameContent] = React.useState([
     ["an evil spirit", "demon", "squiffiest", "antically", "pika"],
     [
@@ -120,10 +117,17 @@ export default function App() {
   });
 
   React.useEffect(() => {
-    if (difficulty !== "") {
+    if (routedGame) {
       //fetchGameContent(difficulty);
     }
-  }, [difficulty]);
+  }, [routedGame]);
+
+  React.useEffect(() => {
+    if (gameContent && routedGame) {
+      setRoutedGame(false);
+      setIsLoaded(true);
+    }
+  }, [gameContent, routedGame]);
 
 
   async function fetchGameContent(difficulty) {
@@ -131,8 +135,6 @@ export default function App() {
     setGameContent(wordResponse);
     console.log(wordResponse);
   }
-
-
   
   return (
     <PaperProvider>
@@ -146,10 +148,17 @@ export default function App() {
                   initalRouteName="Home"
                 >
                   <Stack.Screen name="Home" component={Home} />
-                  <Stack.Screen name="Difficulty" component={Difficulty} />
-                  <Stack.Screen name="Game">
-                  {() => <Game difficulty={difficulty} gameContent={gameContent}/>}
+                  <Stack.Screen name="Difficulty">
+                    {() => <Difficulty setRoutedGame={setRoutedGame} />}
                   </Stack.Screen>
+                  <Stack.Screen name="Loading">
+                    {() => <GameLoading isLoaded={isLoaded}/>}
+                  </Stack.Screen>
+                  {gameContent?.length > 0 && (
+                    <Stack.Screen name="Game">
+                      {() => <Game gameContent={gameContent} />}
+                    </Stack.Screen>
+                  )}
                 </Stack.Navigator>
               )}
             </SafeAreaView>

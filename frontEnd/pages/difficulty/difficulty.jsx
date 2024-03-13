@@ -6,9 +6,16 @@ const IPHONE14HRATIO = 0.001184834123222749;
 const IPHONE14WRATIO = 0.00256410256;
 
 
-export function Difficulty() {
+export function Difficulty({ setRoutedGame }) {
+
+  
 
     const nav = useNavigation();
+
+    const navigateToGame = (difficulty) => {
+        setRoutedGame(true);
+        nav.navigate("Loading", { difficulty: difficulty });
+    }
 
     const { height, width } = useWindowDimensions();
     const HMULTIPLIER = IPHONE14HRATIO * height;
@@ -71,13 +78,13 @@ export function Difficulty() {
 
     return (
       <>
-        <TouchableOpacity style={s.easy} onPress={() => nav.navigate("Easy")}>
+        <TouchableOpacity style={s.easy} onPress={() => navigateToGame("Easy")}>
           <Image style={s.easyTxt} source={require("../../assets/Easy.png")} />
         </TouchableOpacity>
-        <TouchableOpacity style={s.medium} onPress={() => nav.navigate("Medium")}>
+        <TouchableOpacity style={s.medium} onPress={() => navigateToGame("Medium")}>
           <Image style={s.mediumTxt}source={require("../../assets/Medium.png")}/>
         </TouchableOpacity>
-        <TouchableOpacity style={s.hard} onPress={() => nav.navigate("Hard")}>
+        <TouchableOpacity style={s.hard} onPress={() => navigateToGame("Hard")}>
           <Image style={s.hardTxt} source={require("../../assets/Hard.png")} />
         </TouchableOpacity>
       </>
