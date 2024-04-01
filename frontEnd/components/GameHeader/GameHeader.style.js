@@ -25,7 +25,7 @@ export const s = StyleSheet.create({
     paddingTop: "4%",
   },
   difficulty: {
-    fontSize: 15,
+    fontSize: "fit-content",
     paddingTop: "4%",
   },
   middle: {
@@ -47,16 +47,14 @@ export const s = StyleSheet.create({
     fontSize: 60,
   },
   bottom: {
-    flexGrow: 6,
+    flexGrow: 5,
     justifyContent: "flex-end",
     alignItems: "center",
+    paddingHorizontal: "2%",
   },
   define: {
       fontSize: 26,
       alignSelf: "flex-start",
       paddingLeft: "7%",
   },
-  word: {
-      fontSize: 50,
-  }
 });

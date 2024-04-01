@@ -2,8 +2,11 @@ import { TouchableOpacity, View } from "react-native";
 import { s } from "./GameHeader.style";
 import { Txt } from "../Txt/Txt";
 import { useNavigation } from "@react-navigation/native";
+import * as React from "react";
 
-export function GameHeader({ difficulty, currentDef }) {
+export function GameHeader({ score, time, difficulty, currentDef }) {
+
+    const [fontSize, setFontSize] = React.useState(55);
 
     const nav = useNavigation();
 
@@ -14,6 +17,10 @@ export function GameHeader({ difficulty, currentDef }) {
     else if (difficulty === "Medium") {
         color = "yellow";
     }
+
+    React.useEffect(() => {
+      setFontSize(Math.max(53 - currentDef.length * 0.4, 25));
+    }, [currentDef]);
 
     return (
       <View style={s.container}>
@@ -34,19 +41,19 @@ export function GameHeader({ difficulty, currentDef }) {
         <View style={s.middle}>
           <View style={s.midContainer}>
             <Txt style={s.caption}>Time Left:</Txt>
-            <Txt style={s.time}>0:00</Txt>
+            <Txt style={s.time}>{time}</Txt>
           </View>
           <View style={s.midContainer}>
             <Txt style={s.caption}>Score:</Txt>
             <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-              <Txt style={s.counter}>0</Txt>
+              <Txt style={s.counter}>{score}</Txt>
               {/*<Txt style={{ fontSize: 50}}>🔥</Txt>*/}
             </View>
           </View>
         </View>
         <View style={s.bottom}>
           <Txt style={s.define}>Definition:</Txt>
-          <Txt style={s.word}>SOME DEF</Txt>
+          <Txt style={{ fontSize: fontSize, textAlign: "center" }}>{currentDef}</Txt>
         </View>
       </View>
     );

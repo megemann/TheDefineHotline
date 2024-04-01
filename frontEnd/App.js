@@ -16,6 +16,8 @@ const Stack = createNativeStackNavigator();
 export default function App() {
 
   const [routedGame, setRoutedGame] = React.useState(false);
+  const [reRenderGame, setRerenderGame] = React.useState(false);
+  const [gameData, setGameData] = React.useState({});
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [gameContent, setGameContent] = React.useState([
     ["an evil spirit", "demon", "squiffiest", "antically", "pika"],
@@ -105,6 +107,7 @@ export default function App() {
       "nurtural",
     ],
   ]);
+  const [tempGameContent, setTempGameContent] = React.useState(gameContent);
   //0: def
   //1: answer
   //2-4: fake
@@ -123,16 +126,22 @@ export default function App() {
   }, [routedGame]);
 
   React.useEffect(() => {
-    if (gameContent && routedGame) {
+    if (tempGameContent && routedGame) {
       setRoutedGame(false);
       setIsLoaded(true);
     }
-  }, [gameContent, routedGame]);
+  }, [tempGameContent, routedGame]);
 
+React.useEffect(() => {
+  if (reRenderGame) {
+    setRerenderGame(false);
+    setGameContent(tempGameContent);
+  }
+}, [reRenderGame])
 
   async function fetchGameContent(difficulty) {
     const wordResponse = await WordAPI.fetchGameContent(difficulty);
-    setGameContent(wordResponse);
+    setTempGameContent(wordResponse);
     console.log(wordResponse);
   }
   
@@ -156,7 +165,7 @@ export default function App() {
                   </Stack.Screen>
                   {gameContent?.length > 0 && (
                     <Stack.Screen name="Game">
-                      {() => <Game gameContent={gameContent} />}
+                      {() => <Game gameContent={gameContent} setRerender={setRerenderGame} />}
                     </Stack.Screen>
                   )}
                 </Stack.Navigator>
