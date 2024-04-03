@@ -126,7 +126,6 @@ export default function App() {
   async function saveTopScores() {
     try {
       await AsyncStorage.setItem("@topScores", JSON.stringify(topScores));
-      console.log("saved");
     }
     catch (e) {
       console.log(e);
@@ -136,7 +135,6 @@ export default function App() {
   async function loadTopScores() {
     try {
       const value = await AsyncStorage.getItem("@topScores");
-      console.log("value ", value)
       if (value !== null) {
         setTopScores(JSON.parse(value));
       } else {
@@ -175,15 +173,6 @@ React.useEffect(() => {
     setGameContent(tempGameContent);
   }
 }, [reRenderGame])
-
-  React.useEffect(() => {
-    console.log("First load", firstLoad);
-    if (!firstLoad) {
-      
-    } else {
-      setFirstLoad(false);
-    }
-  }, [topScores])
 
   async function fetchGameContent(difficulty) {
     const wordResponse = await WordAPI.fetchGameContent(difficulty);

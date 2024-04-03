@@ -4,7 +4,7 @@ import { Txt } from "../Txt/Txt";
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 
-export function GameHeader({ score, time, difficulty, currentDef }) {
+export function GameHeader({ score, time, difficulty, currentDef, highestScore }) {
 
     const [fontSize, setFontSize] = React.useState(55);
 
@@ -47,7 +47,7 @@ export function GameHeader({ score, time, difficulty, currentDef }) {
             <Txt style={s.caption}>Score:</Txt>
             <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
               <Txt style={s.counter}>{score}</Txt>
-              {/*<Txt style={{ fontSize: 50}}>🔥</Txt>*/}
+              { (score > highestScore) && <Txt style={{ fontSize: 50}}>🔥</Txt>}
             </View>
           </View>
         </View>

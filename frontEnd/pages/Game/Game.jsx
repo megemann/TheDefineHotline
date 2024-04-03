@@ -144,7 +144,7 @@ export function Game({ gameContent, setRerender, topScores, setTopScores }) {
 
     return (
         <View style={s.container}>
-            <GameHeader score={score} time={`${Math.floor(time / 60)}:${(time % 60).toString().padStart(2, "0")}`} style={s.GameHeader} difficulty={params.difficulty} currentDef={currDef}/>
+            <GameHeader highestScore={topScores[params.difficulty][0]} score={score} time={`${Math.floor(time / 60)}:${(time % 60).toString().padStart(2, "0")}`} style={s.GameHeader} difficulty={params.difficulty} currentDef={currDef}/>
             <GameBody style={s.GameBody} currentAnswers={currAnswers} setLastCorrect={setLastCorrect}/>
         </View>
     );

@@ -8,7 +8,6 @@ export function EndGame({topScores, save}) {
 
     const  { params } = useRoute();
     const nav = useNavigation();
-    console.log(topScores);
 
     const navHome = () => {
         nav.navigate("Home");
@@ -74,7 +73,6 @@ export function EndGame({topScores, save}) {
               {
                 topScores[params.difficulty].map((score, index) => {
                   if (score === params.score) {
-                    console.log("here");
                     return (
                       <Txt style={{ color: color }} key={index}>
                         {score}
