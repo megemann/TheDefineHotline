@@ -6,7 +6,7 @@ import * as React from "react";
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-export function Game({ gameContent, setRerender, topScores, setTopScores }) {
+export function Game({ gameContent, setRerender, topScores, setTopScores, attempts, setAttempts }) {
 
 
     const { params } = useRoute();
@@ -22,6 +22,11 @@ export function Game({ gameContent, setRerender, topScores, setTopScores }) {
     const [failed, setFailed] = React.useState(false);
 
     const navEndGame = endcase => {
+        let tempAttempts = attempts;
+        if (tempAttempts) {
+            tempAttempts[params.difficulty] += 1;
+            setAttempts(tempAttempts);
+        }
         let tempTopScores = topScores;
         if (tempTopScores) {
             if (tempTopScores[params.difficulty].length == 0) {

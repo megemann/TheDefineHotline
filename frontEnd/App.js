@@ -13,12 +13,14 @@ import { Game } from "./pages/Game/Game";
 import { GameLoading } from "./pages/GameLoading/GameLoading";
 import { EndGame } from "./pages/EndGame/EndGame";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TopScores } from "./pages/TopScores/TopScores";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
 
   const [firstLoad, setFirstLoad] = React.useState(true);
   const [topScores, setTopScores] = React.useState();
+  const [attempts, setAttempts] = React.useState();
   const [routedGame, setRoutedGame] = React.useState(false);
   const [reRenderGame, setRerenderGame] = React.useState(false);
   const [gameData, setGameData] = React.useState({});
@@ -123,6 +125,10 @@ export default function App() {
     "JockeyOne-Regular": require("./assets/fonts/JockeyOne-Regular.ttf"),
   });
 
+  const save = () => {
+    saveTopScores();
+    saveAttempts();
+  }
   async function saveTopScores() {
     try {
       await AsyncStorage.setItem("@topScores", JSON.stringify(topScores));
@@ -131,6 +137,14 @@ export default function App() {
       console.log(e);
     }
   }
+
+    async function saveAttempts() {
+      try {
+        await AsyncStorage.setItem("@attempts", JSON.stringify(attempts));
+      } catch (e) {
+        console.log(e);
+      }
+    }
 
   async function loadTopScores() {
     try {
@@ -150,8 +164,26 @@ export default function App() {
     }
   }
 
+  async function loadAttempts() {
+      try {
+        const value = await AsyncStorage.getItem("@attempts");
+        if (value !== null) {
+          setAttempts(JSON.parse(value));
+        } else {
+          setAttempts({
+            easy: 0,
+            medium: 0,
+            hard: 0,
+          });
+        }
+      } catch (e) {
+        alert(e);
+      }
+    }
+
   React.useEffect(() => {
     loadTopScores();
+    loadAttempts();
   }, [])
 
   React.useEffect(() => {
@@ -196,19 +228,36 @@ React.useEffect(() => {
                     {() => <Difficulty setRoutedGame={setRoutedGame} />}
                   </Stack.Screen>
                   <Stack.Screen name="Loading">
-                    {() => <GameLoading isLoaded={isLoaded}/>}
+                    {() => <GameLoading isLoaded={isLoaded} />}
                   </Stack.Screen>
-                  {
-                  gameContent?.length > 0 && (
+                  {gameContent?.length > 0 && (
                     <Stack.Screen name="Game">
-                      {() => <Game gameContent={gameContent} setRerender={setRerenderGame} topScores={topScores} setTopScores={setTopScores} />}
+                      {() => (
+                        <Game
+                          gameContent={gameContent}
+                          setRerender={setRerenderGame}
+                          topScores={topScores}
+                          setTopScores={setTopScores}
+                          attempts={attempts}
+                          setAttempts={setAttempts}
+                        />
+                      )}
                     </Stack.Screen>
                   )}
-                  { (
+                  {
                     <Stack.Screen name="EndGame">
-                      {() => <EndGame topScores={topScores} save={saveTopScores} />}
+                      {() => (
+                        <EndGame topScores={topScores} save={save} />
+                      )}
                     </Stack.Screen>
-                  )}
+                  }
+                  {
+                    <Stack.Screen name="TopScores">
+                      {() => (
+                        <TopScores topScores={topScores} attempts={attempts}/>
+                      )}
+                    </Stack.Screen>
+                  }
                 </Stack.Navigator>
               )}
             </SafeAreaView>

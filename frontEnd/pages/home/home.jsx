@@ -4,10 +4,16 @@ import { s } from "./home.style";
 import { Image } from "react-native";
 import { Keypad } from "./Keypad/Keypad";
 import * as React from "react";
+import { useNavigation } from "@react-navigation/native";
 
 
 
 export function Home() {
+  const nav = useNavigation();
+
+  const navTopScores = () => {
+    nav.navigate("TopScores");
+  }
 
   const [ visible, setVisible ] = React.useState( false );
 
@@ -21,7 +27,7 @@ export function Home() {
         {
           visible && (
             <View style={s.menu}>
-              <TouchableOpacity style={s.menuItem} onPress={() => {alert("Coming Soon!")}}>
+              <TouchableOpacity style={s.menuItem} onPress={navTopScores}>
                 <Image source={require("../../assets/trophy.png")} style={s.menuIcon}/>
               </TouchableOpacity>
               <TouchableOpacity style={s.menuItem} onPress={() => {alert("Coming Soon!")}}>
