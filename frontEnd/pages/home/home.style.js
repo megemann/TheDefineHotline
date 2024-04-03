@@ -1,41 +1,86 @@
 import { StyleSheet } from "react-native";
 
 export const s = StyleSheet.create({
-    background: {
-        backgroundColor: "#827C7C",
-        flex: 1
+  background: {
+    backgroundColor: "#827C7C",
+    flex: 1,
+  },
+  menuButton: {
+    marginTop: 17,
+    marginLeft: 14,
+    width: 57,
+    height: 57,
+    borderRadius: 60,
+    backgroundColor: "#827C7C",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
     },
-    menuButton: {
-        position: "absolute",
-        left: 10,
-        top : 17,
-        backgroundColor: "#827C7C",
-        width: "fit-content",
-        height: "fit-content",
-        borderRadius: "50%",
+    shadowOpacity: 0.39,
+    shadowRadius: 8.3,
+
+    elevation: 16,
+    borderColor: "black",
+    borderWidth: 3,
+    backgroundColor: "#827C7C",
+    zIndex: 999,
+  },
+  avatarButton: {
+    top: 17,
+    left: 314,
+    position: "absolute",
+    backgroundColor: "#827C7C",
+    width: "fit-content",
+    height: "fit-content",
+    borderRadius: "50%",
+  },
+  title: {
+    position: "absolute",
+    top: "10%",
+    fontSize: 40,
+    left: 42,
+    top: 127,
+    width: 170,
+  },
+  keypad: {
+    position: "absolute",
+    top: 290,
+    left: 46,
+    width: 297,
+    height: 469,
+  },
+  menu: {
+    marginTop: 0,
+    marginLeft: 14,
+    zIndex: 998,
+  },
+  menuItem: {
+    marginTop: 20,
+    width: 57,
+    height: 57,
+    borderRadius: 60,
+    backgroundColor: "#827C7C",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
     },
-    avatarButton: {
-        top: 17,
-        left: 314,
-        position: "absolute",
-        backgroundColor: "#827C7C",
-        width: "fit-content",
-        height: "fit-content",
-        borderRadius: "50%",
-    },
-    title: {
-        position: "absolute",
-        top: "10%",
-        fontSize: 40,
-        left: 42,
-        top: 127,
-        width: 170
-    },
-    keypad: {
-        position: "absolute",
-        top: 290,
-        left: 46,
-        width: 297,
-        height: 469,
-    }
-})
+    shadowOpacity: 0.39,
+    shadowRadius: 8.3,
+
+    elevation: 16,
+    borderColor: "black",
+    borderWidth: 3,
+    zIndex: 998,
+  },
+  menuIcon: {
+    width: 30,
+    height: 30,
+    zIndex: 998,
+  },
+});
