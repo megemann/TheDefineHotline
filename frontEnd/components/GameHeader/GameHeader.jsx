@@ -11,10 +11,10 @@ export function GameHeader({ score, time, difficulty, currentDef }) {
     const nav = useNavigation();
 
     let color = "red";
-    if (difficulty === "Easy") {
+    if (difficulty === "easy") {
         color = "green";
     }
-    else if (difficulty === "Medium") {
+    else if (difficulty === "medium") {
         color = "yellow";
     }
 

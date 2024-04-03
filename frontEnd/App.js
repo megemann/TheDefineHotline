@@ -11,10 +11,14 @@ import { Difficulty } from "./pages/difficulty/difficulty";
 import { WordAPI } from "./api/vocab";
 import { Game } from "./pages/Game/Game";
 import { GameLoading } from "./pages/GameLoading/GameLoading";
+import { EndGame } from "./pages/EndGame/EndGame";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
 
+  const [firstLoad, setFirstLoad] = React.useState(true);
+  const [topScores, setTopScores] = React.useState();
   const [routedGame, setRoutedGame] = React.useState(false);
   const [reRenderGame, setRerenderGame] = React.useState(false);
   const [gameData, setGameData] = React.useState({});
@@ -119,6 +123,39 @@ export default function App() {
     "JockeyOne-Regular": require("./assets/fonts/JockeyOne-Regular.ttf"),
   });
 
+  async function saveTopScores() {
+    try {
+      await AsyncStorage.setItem("@topScores", JSON.stringify(topScores));
+      console.log("saved");
+    }
+    catch (e) {
+      console.log(e);
+    }
+  }
+
+  async function loadTopScores() {
+    try {
+      const value = await AsyncStorage.getItem("@topScores");
+      console.log("value ", value)
+      if (value !== null) {
+        setTopScores(JSON.parse(value));
+      } else {
+        setTopScores({
+          easy: [0, 0, 0],
+          medium: [0, 0, 0],
+          hard: [0, 0, 0],
+        });
+      }
+    }
+    catch (e) {
+      alert(e);
+    }
+  }
+
+  React.useEffect(() => {
+    loadTopScores();
+  }, [])
+
   React.useEffect(() => {
     if (routedGame) {
       //fetchGameContent(difficulty);
@@ -138,6 +175,15 @@ React.useEffect(() => {
     setGameContent(tempGameContent);
   }
 }, [reRenderGame])
+
+  React.useEffect(() => {
+    console.log("First load", firstLoad);
+    if (!firstLoad) {
+      
+    } else {
+      setFirstLoad(false);
+    }
+  }, [topScores])
 
   async function fetchGameContent(difficulty) {
     const wordResponse = await WordAPI.fetchGameContent(difficulty);
@@ -163,9 +209,15 @@ React.useEffect(() => {
                   <Stack.Screen name="Loading">
                     {() => <GameLoading isLoaded={isLoaded}/>}
                   </Stack.Screen>
-                  {gameContent?.length > 0 && (
+                  {
+                  gameContent?.length > 0 && (
                     <Stack.Screen name="Game">
-                      {() => <Game gameContent={gameContent} setRerender={setRerenderGame} />}
+                      {() => <Game gameContent={gameContent} setRerender={setRerenderGame} topScores={topScores} setTopScores={setTopScores} />}
+                    </Stack.Screen>
+                  )}
+                  { (
+                    <Stack.Screen name="EndGame">
+                      {() => <EndGame topScores={topScores} save={saveTopScores} />}
                     </Stack.Screen>
                   )}
                 </Stack.Navigator>

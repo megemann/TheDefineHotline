@@ -8,8 +8,6 @@ const IPHONE14WRATIO = 0.00256410256;
 
 export function Difficulty({ setRoutedGame }) {
 
-  
-
     const nav = useNavigation();
 
     const navigateToGame = (difficulty) => {
@@ -78,13 +76,13 @@ export function Difficulty({ setRoutedGame }) {
 
     return (
       <>
-        <TouchableOpacity style={s.easy} onPress={() => navigateToGame("Easy")}>
+        <TouchableOpacity style={s.easy} onPress={() => navigateToGame("easy")}>
           <Image style={s.easyTxt} source={require("../../assets/Easy.png")} />
         </TouchableOpacity>
-        <TouchableOpacity style={s.medium} onPress={() => navigateToGame("Medium")}>
+        <TouchableOpacity style={s.medium} onPress={() => navigateToGame("medium")}>
           <Image style={s.mediumTxt}source={require("../../assets/Medium.png")}/>
         </TouchableOpacity>
-        <TouchableOpacity style={s.hard} onPress={() => navigateToGame("Hard")}>
+        <TouchableOpacity style={s.hard} onPress={() => navigateToGame("hard")}>
           <Image style={s.hardTxt} source={require("../../assets/Hard.png")} />
         </TouchableOpacity>
       </>

@@ -4,10 +4,13 @@ import { GameBody } from "../../components/GameBody/GameBody";
 import { GameHeader } from "../../components/GameHeader/GameHeader";
 import * as React from "react";
 import { View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-export function Game({ gameContent, setRerender }) {
+export function Game({ gameContent, setRerender, topScores, setTopScores }) {
+
 
     const { params } = useRoute();
+    const nav = useNavigation();
 
     const [contentNumber, setContentNumber] = React.useState(0);
     const [score, setScore] = React.useState(0);
@@ -18,19 +21,56 @@ export function Game({ gameContent, setRerender }) {
     const [lastCorrect, setLastCorrect] = React.useState(null);
     const [failed, setFailed] = React.useState(false);
 
+    const navEndGame = endcase => {
+        let tempTopScores = topScores;
+        if (tempTopScores) {
+            if (tempTopScores[params.difficulty].length == 0) {
+                tempTopScores[params.difficulty] = [score, 0, 0];
+            } else {
+            let entry = 3;
+            for (
+                let i = 0;
+                i < tempTopScores[params.difficulty].length;
+                i++
+            ) {
+                if (score > tempTopScores[params.difficulty][i]) {
+                entry = i;
+                break;
+                }
+            }
+            let newVal = score;
+            let oldVal = null;
+            for (
+                let i = entry;
+                i < tempTopScores[params.difficulty].length;
+                i++
+            ) {
+                oldVal = tempTopScores[params.difficulty][i];
+                tempTopScores[params.difficulty][i] = newVal;
+                if (i === 2) {
+                break;
+                } else {
+                newVal = oldVal;
+                }
+            }
+            }
+        }
+        setTopScores(tempTopScores);
+        nav.navigate("EndGame", { endCase: endcase, score: score, difficulty: params.difficulty });
+    }
+
+
     function getTime() {
-        if (params.difficulty == "Easy") {
+        if (params.difficulty == "easy") {
             return 15;
-        } else if (params.difficulty == "Medium") {
+        } else if (params.difficulty == "medium") {
             return 10;
-        } else if (params.difficulty == "Hard") {
+        } else if (params.difficulty == "hard") {
             return 5;
         }
     }
 
     const [time, setTime] = React.useState(getTime());
-
-
 
     React.useEffect(() => {
 
@@ -84,22 +124,22 @@ export function Game({ gameContent, setRerender }) {
 
         } else if (lastCorrect == false) {
             setFailed(true);
+            navEndGame("WRONG ANSWER");
         } 
     }, [lastCorrect]);
 
     React.useEffect(() => {
         const timer = setInterval(() => {
             setTime((superFreshTime) => superFreshTime - 1);
-            console.log(time);
         }, 1000);
         return () => clearInterval(timer);
     }, []);
 
     React.useEffect(() => {
-        if (time == 0) {
-            setFailed(true);
-        }  
-    }, [time])
+        if (time == 0 && !failed) {
+            navEndGame("TIME UP");
+        }
+    }, [time]);
 
 
     return (
