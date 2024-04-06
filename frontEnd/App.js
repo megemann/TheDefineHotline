@@ -14,17 +14,20 @@ import { GameLoading } from "./pages/GameLoading/GameLoading";
 import { EndGame } from "./pages/EndGame/EndGame";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TopScores } from "./pages/TopScores/TopScores";
+import { DEFAULT_SETTINGS, Settings } from "./pages/Settings/Settings";
+import { SettingsContext } from "./SettingsContext";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
 
-  const [firstLoad, setFirstLoad] = React.useState(true);
+  const [settings, setSettings] = React.useState();
   const [topScores, setTopScores] = React.useState();
   const [attempts, setAttempts] = React.useState();
   const [routedGame, setRoutedGame] = React.useState(false);
   const [reRenderGame, setRerenderGame] = React.useState(false);
   const [gameData, setGameData] = React.useState({});
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const [prevDifficulty, setPrevDifficulty] = React.useState(null);
   const [gameContent, setGameContent] = React.useState([
     ["an evil spirit", "demon", "squiffiest", "antically", "pika"],
     [
@@ -126,9 +129,30 @@ export default function App() {
   });
 
   const save = () => {
-    saveTopScores();
-    saveAttempts();
+    if (settings.general.topScoreTracking) {
+      saveTopScores();
+      saveAttempts();
+    }
   }
+
+  const saveNewSettings = () => {
+    saveSettings();
+    save();
+  }
+
+  const resetTopScores = () => {
+    setTopScores({
+      easy: [0, 0, 0],
+      medium: [0, 0, 0],
+      hard: [0, 0, 0],
+    });
+    setAttempts({
+      easy: 0,
+      medium: 0,
+      hard: 0,
+    })
+  }
+
   async function saveTopScores() {
     try {
       await AsyncStorage.setItem("@topScores", JSON.stringify(topScores));
@@ -137,6 +161,14 @@ export default function App() {
       console.log(e);
     }
   }
+
+    async function saveSettings() {
+      try {
+        await AsyncStorage.setItem("@settings", JSON.stringify(settings));
+      } catch (e) {
+        console.log(e);
+      }
+    }
 
     async function saveAttempts() {
       try {
@@ -164,6 +196,19 @@ export default function App() {
     }
   }
 
+    async function loadSettings() {
+      try {
+        const value = await AsyncStorage.getItem("@settings");
+        if (value !== null) {
+          setSettings(JSON.parse(value));
+        } else {
+          setSettings(DEFAULT_SETTINGS);
+        }
+      } catch (e) {
+        alert(e);
+      }
+    }
+
   async function loadAttempts() {
       try {
         const value = await AsyncStorage.getItem("@attempts");
@@ -184,6 +229,7 @@ export default function App() {
   React.useEffect(() => {
     loadTopScores();
     loadAttempts();
+    loadSettings();
   }, [])
 
   React.useEffect(() => {
@@ -213,58 +259,73 @@ React.useEffect(() => {
   }
   
   return (
-    <PaperProvider>
-      <NavigationContainer theme={{ colors: { background: "transparent" } }}>
-        <View style={s.background}>
-          <SafeAreaProvider>
-            <SafeAreaView style={{ flex: 1 }}>
-              {isFontLoaded && (
-                <Stack.Navigator
-                  screenOptions={{ headerShown: false, animation: "none" }}
-                  initalRouteName="Home"
-                >
-                  <Stack.Screen name="Home" component={Home} />
-                  <Stack.Screen name="Difficulty">
-                    {() => <Difficulty setRoutedGame={setRoutedGame} />}
-                  </Stack.Screen>
-                  <Stack.Screen name="Loading">
-                    {() => <GameLoading isLoaded={isLoaded} />}
-                  </Stack.Screen>
-                  {gameContent?.length > 0 && (
-                    <Stack.Screen name="Game">
-                      {() => (
-                        <Game
-                          gameContent={gameContent}
-                          setRerender={setRerenderGame}
-                          topScores={topScores}
-                          setTopScores={setTopScores}
-                          attempts={attempts}
-                          setAttempts={setAttempts}
-                        />
-                      )}
+    <SettingsContext.Provider value={settings || DEFAULT_SETTINGS}>
+      <PaperProvider>
+        <NavigationContainer theme={{ colors: { background: "transparent" } }}>
+          <View style={s.background}>
+            <SafeAreaProvider>
+              <SafeAreaView style={{ flex: 1 }}>
+                {isFontLoaded && (
+                  <Stack.Navigator
+                    screenOptions={{ headerShown: false, animation: "none" }}
+                    initalRouteName="Home"
+                  >
+                    <Stack.Screen name="Home" component={Home} />
+                    <Stack.Screen name="Difficulty">
+                      {() => <Difficulty setRoutedGame={setRoutedGame} prevDifficulty={prevDifficulty} setPrevDifficulty={setPrevDifficulty}/>}
                     </Stack.Screen>
-                  )}
-                  {
-                    <Stack.Screen name="EndGame">
-                      {() => (
-                        <EndGame topScores={topScores} save={save} />
-                      )}
+                    <Stack.Screen name="Loading">
+                      {() => <GameLoading isLoaded={isLoaded} />}
                     </Stack.Screen>
-                  }
-                  {
-                    <Stack.Screen name="TopScores">
-                      {() => (
-                        <TopScores topScores={topScores} attempts={attempts}/>
-                      )}
-                    </Stack.Screen>
-                  }
-                </Stack.Navigator>
-              )}
-            </SafeAreaView>
-          </SafeAreaProvider>
-        </View>
-      </NavigationContainer>
-    </PaperProvider>
+                    {gameContent?.length > 0 && (
+                      <Stack.Screen name="Game">
+                        {() => (
+                          <Game
+                            gameContent={gameContent}
+                            setRerender={setRerenderGame}
+                            topScores={topScores}
+                            setTopScores={setTopScores}
+                            attempts={attempts}
+                            setAttempts={setAttempts}
+                          />
+                        )}
+                      </Stack.Screen>
+                    )}
+                    {
+                      <Stack.Screen name="EndGame">
+                        {() => <EndGame topScores={topScores} save={save} />}
+                      </Stack.Screen>
+                    }
+                    {
+                      <Stack.Screen name="TopScores">
+                        {() => (
+                          <TopScores
+                            topScores={topScores}
+                            attempts={attempts}
+                          />
+                        )}
+                      </Stack.Screen>
+                    }
+                    {
+                      <Stack.Screen name="Settings">
+                        {() => (
+                          <Settings
+                            settings={settings}
+                            setSettings={setSettings}
+                            save={saveNewSettings}
+                            resetTopScores={resetTopScores}
+                          />
+                        )}
+                      </Stack.Screen>
+                    }
+                  </Stack.Navigator>
+                )}
+              </SafeAreaView>
+            </SafeAreaProvider>
+          </View>
+        </NavigationContainer>
+      </PaperProvider>
+    </SettingsContext.Provider>
   );
 }
 

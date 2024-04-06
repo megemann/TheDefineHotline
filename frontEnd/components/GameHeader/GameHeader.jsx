@@ -3,11 +3,13 @@ import { s } from "./GameHeader.style";
 import { Txt } from "../Txt/Txt";
 import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
+import { SettingsContext } from "../../SettingsContext";
 
 export function GameHeader({ score, time, difficulty, currentDef, highestScore }) {
 
     const [fontSize, setFontSize] = React.useState(55);
-
+    const streakVisible = React.useContext(SettingsContext).general.highScoreIndicator;
+    
     const nav = useNavigation();
 
     let color = "red";
@@ -47,7 +49,7 @@ export function GameHeader({ score, time, difficulty, currentDef, highestScore }
             <Txt style={s.caption}>Score:</Txt>
             <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
               <Txt style={s.counter}>{score}</Txt>
-              { (score > highestScore) && <Txt style={{ fontSize: 50}}>🔥</Txt>}
+              { streakVisible && (score > highestScore) && <Txt style={{ fontSize: 50}}>🔥</Txt>}
             </View>
           </View>
         </View>

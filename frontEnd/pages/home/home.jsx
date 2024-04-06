@@ -11,8 +11,9 @@ import { useNavigation } from "@react-navigation/native";
 export function Home() {
   const nav = useNavigation();
 
-  const navTopScores = () => {
-    nav.navigate("TopScores");
+  const navPlace = (title) => {
+    setVisible( false );
+    nav.navigate(title);
   }
 
   const [ visible, setVisible ] = React.useState( false );
@@ -27,10 +28,10 @@ export function Home() {
         {
           visible && (
             <View style={s.menu}>
-              <TouchableOpacity style={s.menuItem} onPress={navTopScores}>
+              <TouchableOpacity style={s.menuItem} onPress={() => navPlace("TopScores")}>
                 <Image source={require("../../assets/trophy.png")} style={s.menuIcon}/>
               </TouchableOpacity>
-              <TouchableOpacity style={s.menuItem} onPress={() => {alert("Coming Soon!")}}>
+              <TouchableOpacity style={s.menuItem} onPress={() => navPlace("Settings")}>
                 <Image source={require("../../assets/gear.png")} style={s.menuIcon}/>
               </TouchableOpacity>
               <TouchableOpacity style={s.menuItem} onPress={() => {alert("Coming Soon!")}}>

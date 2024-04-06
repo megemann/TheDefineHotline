@@ -4,22 +4,49 @@ import { useWindowDimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 const IPHONE14HRATIO = 0.001184834123222749;
 const IPHONE14WRATIO = 0.00256410256;
+import * as React from "react";
+import { SettingsContext } from "../../SettingsContext";
 
 
-export function Difficulty({ setRoutedGame }) {
+export function Difficulty({ setRoutedGame, prevDifficulty, setPrevDifficulty }) {
 
     const nav = useNavigation();
 
     const navigateToGame = (difficulty) => {
         setRoutedGame(true);
+        setPrevDifficulty(difficulty);
         nav.navigate("Loading", { difficulty: difficulty });
     }
+
+    const randomDifficulty = React.useContext(SettingsContext).general.randomDifficulty;
+    const constantDifficulty = React.useContext(SettingsContext).general.constantDifficulty;
 
     const { height, width } = useWindowDimensions();
     const HMULTIPLIER = IPHONE14HRATIO * height;
     const WMULTIPLIER = IPHONE14WRATIO * width;
     const AVGMULT = (0.5 * HMULTIPLIER + 0.5 * WMULTIPLIER)
 
+    React.useEffect(() => {
+      if (constantDifficulty) {
+        if (prevDifficulty !== null) {
+          navigateToGame(prevDifficulty);
+        }
+      }
+      if (randomDifficulty) {
+        const rand = Math.floor(Math.random() * 3) + 1;
+        console.log(rand);
+        let difficulty = "";
+        if (rand === 1) {
+          difficulty = "easy";
+        } else if (rand === 2) {
+          difficulty = "medium";
+        } else {
+          difficulty = "hard";
+        }
+        setPrevDifficulty(difficulty);
+        navigateToGame(difficulty);
+      }
+    }, [])
     const s = StyleSheet.create({
       easy: {
         position: "absolute",

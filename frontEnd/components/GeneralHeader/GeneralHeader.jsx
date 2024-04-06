@@ -3,14 +3,25 @@ import { View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Txt } from "../../components/Txt/Txt";
 
-export function GeneralHeader({tab, style}) {
+GeneralHeader.defaultProps = {
+    tab: "",
+    style: {},
+    onExit: () => {},
+}
+
+export function GeneralHeader({tab, style, onExit}) {
     const nav = useNavigation();
+
+    navigateHome = () => {
+        onExit();
+        nav.navigate("Home");
+    }
 
     return (
       <View style={{...style, ...s.top}}>
         <TouchableOpacity
           style={{ flexDirection: "row" }}
-          onPress={() => nav.navigate("Home")}
+          onPress={() => navigateHome()}
         >
           <Txt style={s.backSign}>{"<"}</Txt>
           <Txt style={s.exit}> Exit</Txt>

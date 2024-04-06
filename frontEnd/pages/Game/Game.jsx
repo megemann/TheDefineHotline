@@ -5,12 +5,14 @@ import { GameHeader } from "../../components/GameHeader/GameHeader";
 import * as React from "react";
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { SettingsContext } from "../../SettingsContext";
 
 export function Game({ gameContent, setRerender, topScores, setTopScores, attempts, setAttempts }) {
 
 
     const { params } = useRoute();
     const nav = useNavigation();
+    const trackTopScores = React.useContext(SettingsContext).general.topScoreTracking;
 
     const [contentNumber, setContentNumber] = React.useState(0);
     const [score, setScore] = React.useState(0);
@@ -22,45 +24,48 @@ export function Game({ gameContent, setRerender, topScores, setTopScores, attemp
     const [failed, setFailed] = React.useState(false);
 
     const navEndGame = endcase => {
-        let tempAttempts = attempts;
-        if (tempAttempts) {
-            tempAttempts[params.difficulty] += 1;
-            setAttempts(tempAttempts);
-        }
-        let tempTopScores = topScores;
-        if (tempTopScores) {
-            if (tempTopScores[params.difficulty].length == 0) {
+        if (trackTopScores) {
+             let tempAttempts = attempts;
+            if (tempAttempts) {
+                tempAttempts[params.difficulty] += 1;
+                setAttempts(tempAttempts);
+            }
+            let tempTopScores = topScores;
+            if (tempTopScores) {
+                if (tempTopScores[params.difficulty].length == 0) {
                 tempTopScores[params.difficulty] = [score, 0, 0];
-            } else {
-            let entry = 3;
-            for (
-                let i = 0;
-                i < tempTopScores[params.difficulty].length;
-                i++
-            ) {
-                if (score > tempTopScores[params.difficulty][i]) {
-                entry = i;
-                break;
-                }
-            }
-            let newVal = score;
-            let oldVal = null;
-            for (
-                let i = entry;
-                i < tempTopScores[params.difficulty].length;
-                i++
-            ) {
-                oldVal = tempTopScores[params.difficulty][i];
-                tempTopScores[params.difficulty][i] = newVal;
-                if (i === 2) {
-                break;
                 } else {
-                newVal = oldVal;
+                let entry = 3;
+                for (
+                    let i = 0;
+                    i < tempTopScores[params.difficulty].length;
+                    i++
+                ) {
+                    if (score > tempTopScores[params.difficulty][i]) {
+                    entry = i;
+                    break;
+                    }
+                }
+                let newVal = score;
+                let oldVal = null;
+                for (
+                    let i = entry;
+                    i < tempTopScores[params.difficulty].length;
+                    i++
+                ) {
+                    oldVal = tempTopScores[params.difficulty][i];
+                    tempTopScores[params.difficulty][i] = newVal;
+                    if (i === 2) {
+                    break;
+                    } else {
+                    newVal = oldVal;
+                    }
+                }
                 }
             }
-            }
+            setTopScores(tempTopScores);
         }
-        setTopScores(tempTopScores);
+       
         nav.navigate("EndGame", { endCase: endcase, score: score, difficulty: params.difficulty });
     }
 
