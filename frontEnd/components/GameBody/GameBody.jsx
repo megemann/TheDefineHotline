@@ -29,6 +29,6 @@ export function GameBody({ currentAnswers, setLastCorrect }) {
   }
 
   return( <View style={s.container}>
-    {currentAnswers.map((def, index) => <GameBodyItem onPress={onPress} key={index} word={def} />)}
+    {randomizedAnswers.map((def, index) => <GameBodyItem onPress={onPress} key={index} word={def} />)}
   </View> );
 }
