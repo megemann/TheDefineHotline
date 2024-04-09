@@ -21,7 +21,7 @@ export function GameHeader({ score, time, difficulty, currentDef, highestScore }
     }
 
     React.useEffect(() => {
-      setFontSize(Math.max(53 - currentDef.length * 0.4, 25));
+      setFontSize(Math.max(53 - currentDef.length * 0.36, 21));
     }, [currentDef]);
 
     return (

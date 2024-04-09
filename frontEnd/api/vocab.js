@@ -3,7 +3,7 @@ const KEYDICT = "5e68d725-07a7-4b21-b218-6fd6df63269d";
 const KEYTHES = "d09b8761-e751-45c6-be71-e8a5b31d70c3";
 
 export class WordAPI {
-    static async fetchGameContent(difficulty) {
+    static async fetchGameContent() {
         let randomWords = [];
         randomWords = (await axios.get(`https://random-word-api.herokuapp.com/word?number=15`)).data;//15
 
@@ -43,7 +43,6 @@ export class WordAPI {
         for (let i = 0; i < count; i++) {
             finalList.push([]);
         }
-        console.log(finalList);
 
         let offset = 0;
         for (let i = 0; i < defList.length; i++) {
@@ -57,9 +56,6 @@ export class WordAPI {
                 finalList[i - offset].push(answerList[i * 3 + 2]);
             }
         }
-
-        
-        console.log(finalList);
         return finalList;
     }
 }

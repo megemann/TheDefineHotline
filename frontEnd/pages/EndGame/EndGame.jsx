@@ -4,12 +4,13 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 import { Txt } from "../../components/Txt/Txt";
 import * as React from "react";
 
-export function EndGame({topScores, save}) {
+export function EndGame({topScores, save, clearContent}) {
 
     const  { params } = useRoute();
     const nav = useNavigation();
 
     const navHome = () => {
+        clearContent();
         nav.navigate("Home");
     }
 

@@ -28,7 +28,7 @@ export default function App() {
   const [gameData, setGameData] = React.useState({});
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [prevDifficulty, setPrevDifficulty] = React.useState(null);
-  const [gameContent, setGameContent] = React.useState([
+  const [gameContent, setGameContent] = React.useState(/*[
     ["an evil spirit", "demon", "squiffiest", "antically", "pika"],
     [
       "the quality or state of being rocky",
@@ -115,7 +115,7 @@ export default function App() {
       "douzeper",
       "nurtural",
     ],
-  ]);
+  ]*/);
   const [tempGameContent, setTempGameContent] = React.useState(gameContent);
   //0: def
   //1: answer
@@ -209,22 +209,28 @@ export default function App() {
       }
     }
 
-  async function loadAttempts() {
-      try {
-        const value = await AsyncStorage.getItem("@attempts");
-        if (value !== null) {
-          setAttempts(JSON.parse(value));
-        } else {
-          setAttempts({
-            easy: 0,
-            medium: 0,
-            hard: 0,
-          });
-        }
-      } catch (e) {
-        alert(e);
-      }
+    function clearContent() {
+      setGameContent();
+      setTempGameContent();
+      setIsLoaded(false);
     }
+
+  async function loadAttempts() {
+    try {
+      const value = await AsyncStorage.getItem("@attempts");
+      if (value !== null) {
+        setAttempts(JSON.parse(value));
+      } else {
+        setAttempts({
+          easy: 0,
+          medium: 0,
+          hard: 0,
+        });
+      }
+    } catch (e) {
+      alert(e);
+    }
+  }
 
   React.useEffect(() => {
     loadTopScores();
@@ -234,28 +240,42 @@ export default function App() {
 
   React.useEffect(() => {
     if (routedGame) {
-      //fetchGameContent(difficulty);
+      fetchGameContent(false);
     }
   }, [routedGame]);
 
   React.useEffect(() => {
-    if (tempGameContent && routedGame) {
+    if (tempGameContent) {
+      console.log(tempGameContent)
+      setGameContent(tempGameContent);
       setRoutedGame(false);
       setIsLoaded(true);
     }
-  }, [tempGameContent, routedGame]);
+  }, [tempGameContent]);
 
-React.useEffect(() => {
-  if (reRenderGame) {
-    setRerenderGame(false);
-    setGameContent(tempGameContent);
+  function fetchNewContent() {
+    fetchGameContent(true);
   }
-}, [reRenderGame])
 
-  async function fetchGameContent(difficulty) {
-    const wordResponse = await WordAPI.fetchGameContent(difficulty);
-    setTempGameContent(wordResponse);
-    console.log(wordResponse);
+  async function fetchGameContent(newContent) {
+    const wordResponse = await WordAPI.fetchGameContent();
+    let tempContent = [];
+    if (!newContent) {
+      tempContent = wordResponse;
+    } else {
+      tempContent = gameContent;
+      for (let i = 0; i < wordResponse.length; i++) {
+        tempContent.push(wordResponse[i]);
+      }
+    }
+
+    if (newContent) {
+      setGameContent(["NULL"]);
+      setGameContent(tempContent);
+    } else {
+      setTempGameContent(tempContent);
+    }
+    
   }
   
   return (
@@ -283,6 +303,7 @@ React.useEffect(() => {
                           <Game
                             gameContent={gameContent}
                             setRerender={setRerenderGame}
+                            fetchNewContent={fetchNewContent}
                             topScores={topScores}
                             setTopScores={setTopScores}
                             attempts={attempts}
@@ -293,7 +314,7 @@ React.useEffect(() => {
                     )}
                     {
                       <Stack.Screen name="EndGame">
-                        {() => <EndGame topScores={topScores} save={save} />}
+                        {() => <EndGame topScores={topScores} save={save} clearContent={clearContent} />}
                       </Stack.Screen>
                     }
                     {

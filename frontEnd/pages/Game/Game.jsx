@@ -7,13 +7,14 @@ import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SettingsContext } from "../../SettingsContext";
 
-export function Game({ gameContent, setRerender, topScores, setTopScores, attempts, setAttempts }) {
+export function Game({ gameContent, fetchNewContent, topScores, setTopScores, attempts, setAttempts}) {
 
 
     const { params } = useRoute();
     const nav = useNavigation();
     const trackTopScores = React.useContext(SettingsContext).general.topScoreTracking;
 
+    const [prevLength, setPrevLength] = React.useState(0);
     const [contentNumber, setContentNumber] = React.useState(0);
     const [score, setScore] = React.useState(0);
     const [currDef, setCurrDef] = React.useState("");
@@ -22,6 +23,8 @@ export function Game({ gameContent, setRerender, topScores, setTopScores, attemp
     const [answers, setAnswers] = React.useState([[]]);
     const [lastCorrect, setLastCorrect] = React.useState(null);
     const [failed, setFailed] = React.useState(false);
+    const [fetching, setFetching] = React.useState(false);
+    const [firstLength, setFirstLength] = React.useState();
 
     const navEndGame = endcase => {
         if (trackTopScores) {
@@ -85,52 +88,62 @@ export function Game({ gameContent, setRerender, topScores, setTopScores, attemp
     React.useEffect(() => {
 
         if (gameContent?.length > 0) {
-            let definitionsTemp = [];
-            let answersTemp = [];
-            for (let i = 0; i < gameContent.length; i++) {
-                answersTemp.push([]);
+            let definitionsTemp = definitions;
+            let answersTemp = answers;
+            let index = answers.length - 1;
+            let limit = 1;
+            if (index > 2) {
+                limit = 0;
             }
             
-            for (let i = 0; i < gameContent.length; i++) {
+            console.log(index);
+            for (let i = index; i < gameContent.length - limit - 1; i++) {
+                answersTemp.push([]);
+            }
+
+            for (let i = index + 1; i < gameContent.length; i++) {
               definitionsTemp.push(gameContent[i][0]);
-              answersTemp[i].push(gameContent[i][1]);
-              answersTemp[i].push(gameContent[i][2]);
-              answersTemp[i].push(gameContent[i][3]);
-              answersTemp[i].push(gameContent[i][4]);
+              answersTemp[i - limit].push(gameContent[i][1]);
+              answersTemp[i - limit].push(gameContent[i][2]);
+              answersTemp[i - limit].push(gameContent[i][3]);
+              answersTemp[i - limit].push(gameContent[i][4]);
+              console.log(i);
             }
             setAnswers(answersTemp);
             setDefinitions(definitionsTemp);
-            setCurrAnswers(answersTemp[0]);
-            setCurrDef(definitionsTemp[0]);
+            if (contentNumber == 0) {
+                setCurrDef(definitionsTemp[0]);
+                setCurrAnswers(answersTemp[0]);
+            }
+            setPrevLength(gameContent.length);
+            console.log(definitionsTemp);
+            console.log(answersTemp);
+            setFetching(false);
+            if (limit > 0) {
+                setFirstLength(definitionsTemp.length);
+            }
         } 
 
     }, [gameContent]);
 
     React.useEffect(() => {
         if (lastCorrect) {
-            let rerender = false;
-            if (contentNumber == definitions.length - 1) {
-                rerender = true;
-                setContentNumber(0);
-            } else {
-                if (contentNumber == definitions.length - 5) {
-                  //request new data
-                }
-                
-            }
+            if (contentNumber >= definitions.length - 15 && !fetching) {
+                fetchNewContent();
+                setFetching(true);
+            }   
 
             setScore(score + 1);
             setTime(getTime());
 
-            //resetTimer
-            if (rerender) {
+            let tempContentNumber = contentNumber + 1;
+            if (tempContentNumber == firstLength || definitions[tempContentNumber] == undefined || definitions[tempContentNumber].length > 200) { 
+                tempContentNumber += 1;
             }
-            const tempContentNumber = contentNumber + 1;
             setContentNumber(tempContentNumber);
             setLastCorrect(null);
             setCurrDef(definitions[tempContentNumber]);
             setCurrAnswers(answers[tempContentNumber]);
-
 
         } else if (lastCorrect == false) {
             setFailed(true);
