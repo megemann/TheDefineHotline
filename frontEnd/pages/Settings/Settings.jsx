@@ -1,9 +1,10 @@
+import * as React from "react";
 import { s } from "./Settings.style";
 import { View, TouchableOpacity, Alert } from "react-native";
 import { Txt } from "../../components/Txt/Txt";
 import { GeneralHeader } from "../../components/GeneralHeader/GeneralHeader";
 import { SettingsRow } from "../../components/SettingsRow/SettingsRow";
-import * as React from "react";
+
 
 export const DEFAULT_SETTINGS = {
   general: {
@@ -17,7 +18,6 @@ export const DEFAULT_SETTINGS = {
 export function Settings({settings, setSettings, save, resetTopScores}) {
 
     function handleSetting(selected, title) {
-
         let tempSettings = settings;
         tempSettings.general[title] = selected;
         setSettings(settings);

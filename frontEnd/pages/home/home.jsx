@@ -11,13 +11,13 @@ import { useNavigation } from "@react-navigation/native";
 export function Home() {
   const nav = useNavigation();
 
+  //a general navigation function
   const navPlace = (title) => {
     setVisible( false );
     nav.navigate(title);
   }
 
   const [ visible, setVisible ] = React.useState( false );
-
   const changeMenu = () => {setVisible( !visible ) };
 
     return (
@@ -25,7 +25,7 @@ export function Home() {
         <TouchableOpacity style={s.menuButton} onPress={changeMenu}>
           <Image source={require("../../assets/list.png")} style={s.menuIcon}/>
         </TouchableOpacity>
-        {
+        { //menu code
           visible && (
             <View style={s.menu}>
               <TouchableOpacity style={s.menuItem} onPress={() => navPlace("TopScores")}>

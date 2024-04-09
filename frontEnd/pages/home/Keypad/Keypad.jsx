@@ -1,7 +1,7 @@
-import { View, Image, TouchableOpacity } from "react-native";
-import { s } from "./Keypad.style";
-import callButton from "../../../assets/CallButton.png";
 import { useNavigation } from "@react-navigation/native";
+import { s } from "./Keypad.style";
+import { View, Image, TouchableOpacity } from "react-native";
+
 
 export function Keypad({setVisible}) {
 
@@ -11,6 +11,7 @@ export function Keypad({setVisible}) {
         setVisible(false);
         nav.navigate("Difficulty");
     }
+
     return (
       <>
         <View style={s.row}>

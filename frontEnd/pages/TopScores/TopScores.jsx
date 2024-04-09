@@ -1,7 +1,7 @@
+import * as React from "react";
 import { s } from "./TopScores.style";
 import { View } from "react-native";
 import { Txt } from "../../components/Txt/Txt";
-import * as React from "react";
 import { GeneralHeader } from "../../components/GeneralHeader/GeneralHeader";
 
 export function TopScores({topScores, attempts}) {

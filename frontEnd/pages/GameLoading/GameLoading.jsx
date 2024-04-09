@@ -1,25 +1,26 @@
+import * as React from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { s } from "./GameLoading.style";
 import { View } from "react-native";
 import { Txt } from "../../components/Txt/Txt";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import * as React from "react";
 
-export function GameLoading({isLoaded}) {
+//this is used as a intermediate loading page while we are fetching from the API
+export function GameLoading({ isLoaded }) {
+  //will look better with animations
+  const { params } = useRoute();
 
-    const { params } = useRoute();
+  const difficulty = params.difficulty;
+  const nav = useNavigation();
 
-    const difficulty = params.difficulty;
-    const nav = useNavigation();
+  React.useEffect(() => {
+    if (isLoaded) {
+      nav.navigate("Game", { difficulty: difficulty });
+    }
+  }, [isLoaded]);
 
-    React.useEffect(() => {
-        if (isLoaded) {
-            nav.navigate("Game", { difficulty: difficulty });
-        }
-    }, [isLoaded]);
-
-    return (
+  return (
     <View style={s.container}>
-        <Txt>Loading...</Txt>
+      <Txt>Loading...</Txt>
     </View>
-    );
+  );
 }

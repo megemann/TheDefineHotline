@@ -40,8 +40,6 @@ export const s = StyleSheet.create({
     alignItems: "center",
     marginBottom: "15%",
   },
-  topScores: {},
-  scoreItem: {},
   exitButton: {
     backgroundColor: "#25BB4F",
     width: "100%",

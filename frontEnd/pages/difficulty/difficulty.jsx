@@ -18,9 +18,11 @@ export function Difficulty({ setRoutedGame, prevDifficulty, setPrevDifficulty })
         nav.navigate("Loading", { difficulty: difficulty });
     }
 
+    //fetch from our settings (BUGGY WHEN BOTH TRUE)
     const randomDifficulty = React.useContext(SettingsContext).general.randomDifficulty;
     const constantDifficulty = React.useContext(SettingsContext).general.constantDifficulty;
 
+    //gather information on our users screen
     const { height, width } = useWindowDimensions();
     const HMULTIPLIER = IPHONE14HRATIO * height;
     const WMULTIPLIER = IPHONE14WRATIO * width;
@@ -47,6 +49,8 @@ export function Difficulty({ setRoutedGame, prevDifficulty, setPrevDifficulty })
         navigateToGame(difficulty);
       }
     }, [])
+
+    //average multiples allow to scale for different screen sizes
     const s = StyleSheet.create({
       easy: {
         position: "absolute",

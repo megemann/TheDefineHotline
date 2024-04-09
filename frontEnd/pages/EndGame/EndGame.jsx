@@ -1,8 +1,10 @@
-import { View, TouchableOpacity } from "react-native";
-import { s } from "./EndGame.style";
-import { useRoute, useNavigation } from "@react-navigation/native";
-import { Txt } from "../../components/Txt/Txt";
 import * as React from "react";
+import { useRoute, useNavigation } from "@react-navigation/native";
+import { CHOOSE_COLOR } from "../../util";
+import { s } from "./EndGame.style";
+import { View, TouchableOpacity } from "react-native";
+import { Txt } from "../../components/Txt/Txt";
+
 
 export function EndGame({topScores, save, clearContent}) {
 
@@ -10,17 +12,14 @@ export function EndGame({topScores, save, clearContent}) {
     const nav = useNavigation();
 
     const navHome = () => {
+        //clears our old list
         clearContent();
         nav.navigate("Home");
     }
 
-    let color = "red";
-    if (params.difficulty === "easy") {
-      color = "#12EB1A";
-    } else if (params.difficulty === "medium") {
-      color = "yellow";
-    }
+    let color = CHOOSE_COLOR(params.difficulty, "#12EB1A", "yellow", "red");
 
+    //save now that we are done
     React.useEffect(() => {
       if (topScores !== null) {
         save();
