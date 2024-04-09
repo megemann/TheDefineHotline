@@ -1,6 +1,6 @@
-import { Txt } from "../Txt/Txt";
 import { s } from "./GameBodyItem.style";
-import { TouchableOpacity, View } from "react-native";
+import { Txt } from "../Txt/Txt";
+import { TouchableOpacity} from "react-native";
 
 export function GameBodyItem({word, onPress}) {
   return (

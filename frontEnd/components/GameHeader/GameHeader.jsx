@@ -1,25 +1,21 @@
-import { TouchableOpacity, View } from "react-native";
-import { s } from "./GameHeader.style";
-import { Txt } from "../Txt/Txt";
-import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { SettingsContext } from "../../SettingsContext";
+import { CHOOSE_COLOR } from "../../util";
+import { s } from "./GameHeader.style";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity, View } from "react-native";
+import { Txt } from "../Txt/Txt";
 
 export function GameHeader({ score, time, difficulty, currentDef, highestScore }) {
 
     const [fontSize, setFontSize] = React.useState(55);
+    //our context with our data linked to personal settings
     const streakVisible = React.useContext(SettingsContext).general.highScoreIndicator;
-    
     const nav = useNavigation();
 
-    let color = "red";
-    if (difficulty === "easy") {
-        color = "green";
-    }
-    else if (difficulty === "medium") {
-        color = "yellow";
-    }
+    let color = CHOOSE_COLOR(difficulty, "green", "yellow", "red");
 
+    //determines the font size for displaying the definition to prevent collisions
     React.useEffect(() => {
       setFontSize(Math.max(53 - currentDef.length * 0.36, 21));
     }, [currentDef]);

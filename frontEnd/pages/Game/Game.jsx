@@ -1,20 +1,30 @@
-import { useRoute } from "@react-navigation/native";
+import * as React from "react";
+import { useRoute, useNavigation } from "@react-navigation/native";
+import { SettingsContext } from "../../SettingsContext";
 import { s } from "./Game.style";
+import { View } from "react-native";
 import { GameBody } from "../../components/GameBody/GameBody";
 import { GameHeader } from "../../components/GameHeader/GameHeader";
-import * as React from "react";
-import { View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { SettingsContext } from "../../SettingsContext";
 
-export function Game({ gameContent, fetchNewContent, topScores, setTopScores, attempts, setAttempts}) {
+export function Game({ gameContent, fetchNewContent, /*rest of parameters stricitly for score tracking*/ topScores, setTopScores, attempts, setAttempts}) {
 
-
+    //recieve parameters frmo the place we routed from
     const { params } = useRoute();
     const nav = useNavigation();
+    //import the top score tracking from our settings
     const trackTopScores = React.useContext(SettingsContext).general.topScoreTracking;
 
-    const [prevLength, setPrevLength] = React.useState(0);
+    function getTime() {
+        if (params.difficulty == "easy") {
+        return 15;
+        } else if (params.difficulty == "medium") {
+        return 10;
+        } else if (params.difficulty == "hard") {
+        return 5;
+        }
+    }
+    const [time, setTime] = React.useState(getTime());
+
     const [contentNumber, setContentNumber] = React.useState(0);
     const [score, setScore] = React.useState(0);
     const [currDef, setCurrDef] = React.useState("");
@@ -26,44 +36,40 @@ export function Game({ gameContent, fetchNewContent, topScores, setTopScores, at
     const [fetching, setFetching] = React.useState(false);
     const [firstLength, setFirstLength] = React.useState();
 
+    //when we have lost
     const navEndGame = endcase => {
+        //checks settings first
         if (trackTopScores) {
-             let tempAttempts = attempts;
+            //handle attempts
+            let tempAttempts = attempts; //passed from props
             if (tempAttempts) {
                 tempAttempts[params.difficulty] += 1;
                 setAttempts(tempAttempts);
             }
+
+            //handle top scores
             let tempTopScores = topScores;
             if (tempTopScores) {
                 if (tempTopScores[params.difficulty].length == 0) {
                 tempTopScores[params.difficulty] = [score, 0, 0];
                 } else {
-                let entry = 3;
-                for (
-                    let i = 0;
-                    i < tempTopScores[params.difficulty].length;
-                    i++
-                ) {
-                    if (score > tempTopScores[params.difficulty][i]) {
-                    entry = i;
-                    break;
+                    let entry = 3;
+                    for (let i = 0; i < tempTopScores[params.difficulty].length; i++) {
+                        //checks if our score is greater than one in the list
+                        if (score > tempTopScores[params.difficulty][i]) {
+                            entry = i;
+                            break;
+                        }
                     }
-                }
-                let newVal = score;
-                let oldVal = null;
-                for (
-                    let i = entry;
-                    i < tempTopScores[params.difficulty].length;
-                    i++
-                ) {
-                    oldVal = tempTopScores[params.difficulty][i];
-                    tempTopScores[params.difficulty][i] = newVal;
-                    if (i === 2) {
-                    break;
-                    } else {
-                    newVal = oldVal;
+
+                    let newVal = score;
+                    let oldVal = null;
+                    for (let i = entry; i < tempTopScores[params.difficulty].length; i++) {
+                        //want this to run the last time, but not the part under it
+                        oldVal = tempTopScores[params.difficulty][i];
+                        tempTopScores[params.difficulty][i] = newVal;
+                        newVal = oldVal;
                     }
-                }
                 }
             }
             setTopScores(tempTopScores);
@@ -72,21 +78,9 @@ export function Game({ gameContent, fetchNewContent, topScores, setTopScores, at
         nav.navigate("EndGame", { endCase: endcase, score: score, difficulty: params.difficulty });
     }
 
-
-    function getTime() {
-        if (params.difficulty == "easy") {
-            return 15;
-        } else if (params.difficulty == "medium") {
-            return 10;
-        } else if (params.difficulty == "hard") {
-            return 5;
-        }
-    }
-
-    const [time, setTime] = React.useState(getTime());
-
     React.useEffect(() => {
 
+        //updates every new load of our content list
         if (gameContent?.length > 0) {
             let definitionsTemp = definitions;
             let answersTemp = answers;
@@ -96,7 +90,7 @@ export function Game({ gameContent, fetchNewContent, topScores, setTopScores, at
                 limit = 0;
             }
             
-            console.log(index);
+            //TODO: DEBUG LATER, FOR NOW JUST WORKS
             for (let i = index; i < gameContent.length - limit - 1; i++) {
                 answersTemp.push([]);
             }
@@ -115,7 +109,6 @@ export function Game({ gameContent, fetchNewContent, topScores, setTopScores, at
                 setCurrDef(definitionsTemp[0]);
                 setCurrAnswers(answersTemp[0]);
             }
-            setPrevLength(gameContent.length);
             console.log(definitionsTemp);
             console.log(answersTemp);
             setFetching(false);
@@ -128,7 +121,8 @@ export function Game({ gameContent, fetchNewContent, topScores, setTopScores, at
 
     React.useEffect(() => {
         if (lastCorrect) {
-            if (contentNumber >= definitions.length - 15 && !fetching) {
+            //if we are close to having no content left, go fetch now to ensure we do not run out
+            if (contentNumber >= definitions.length - 15 && !fetching) { //make sure we not already fetching
                 fetchNewContent();
                 setFetching(true);
             }   
@@ -137,15 +131,18 @@ export function Game({ gameContent, fetchNewContent, topScores, setTopScores, at
             setTime(getTime());
 
             let tempContentNumber = contentNumber + 1;
-            if (tempContentNumber == firstLength || definitions[tempContentNumber] == undefined || definitions[tempContentNumber].length > 200) { 
+            //check if there is a problem with our definition (sometimes it bypasses our first checks)
+            if (tempContentNumber == firstLength || definitions[tempContentNumber] == undefined || definitions[tempContentNumber].length > 190) { 
                 tempContentNumber += 1;
             }
+            //use tempcontentnumber to bypass the time that it takes for the state change
             setContentNumber(tempContentNumber);
             setLastCorrect(null);
             setCurrDef(definitions[tempContentNumber]);
             setCurrAnswers(answers[tempContentNumber]);
 
         } else if (lastCorrect == false) {
+            //gameover
             setFailed(true);
             navEndGame("WRONG ANSWER");
         } 
@@ -153,6 +150,7 @@ export function Game({ gameContent, fetchNewContent, topScores, setTopScores, at
 
     React.useEffect(() => {
         const timer = setInterval(() => {
+            //essentially allows us to force a state update on time, doesn't work with just setTime(time-1)
             setTime((superFreshTime) => superFreshTime - 1);
         }, 1000);
         return () => clearInterval(timer);

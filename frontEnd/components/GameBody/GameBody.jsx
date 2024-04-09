@@ -1,14 +1,14 @@
-import { Txt } from "../Txt/Txt";
 import { s } from "./GameBody.style";
-import { TouchableWithoutFeedback, View } from "react-native";
-import { GameBodyItem } from "../GameBodyItem/GameBodyItem";
 import * as React from "react";
+import { View } from "react-native";
+import { GameBodyItem } from "../GameBodyItem/GameBodyItem";
 
 export function GameBody({ currentAnswers, setLastCorrect }) {
   
   const [randomizedAnswers, setRandomizedAnswers] = React.useState([]);
 
   React.useEffect(() => {
+    //randomizes every prop update
     const copyCurr = [...currentAnswers];
     const tempRandomizedAnswers = [];
     while (copyCurr.length > 0) {
