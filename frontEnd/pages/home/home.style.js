@@ -58,7 +58,7 @@ export const s = StyleSheet.create({
     zIndex: 998,
   },
   menuItem: {
-    marginTop: 20,
+    position: "absolute",
     width: 57,
     height: 57,
     borderRadius: 60,
@@ -77,6 +77,11 @@ export const s = StyleSheet.create({
     borderColor: "black",
     borderWidth: 3,
     zIndex: 998,
+  },
+  menuTouchable: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   menuIcon: {
     width: 30,
