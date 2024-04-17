@@ -7,5 +7,9 @@ export const s = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    text: {
+        marginTop: "30%",
+        fontSize: 45
     }
 })

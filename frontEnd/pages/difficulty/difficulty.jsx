@@ -27,6 +27,7 @@ export function Difficulty({ setRoutedGame, prevDifficulty, setPrevDifficulty })
 
   const [focus, setFocus] = React.useState(null);
   const [lastFocus, setLastFocus] = React.useState(null);
+  const [nextFocus, setNextFocus] = React.useState(null);
 
   const easyAnimatedStyle = Animate.useAnimatedStyle(() => {
     return {
@@ -80,6 +81,7 @@ export function Difficulty({ setRoutedGame, prevDifficulty, setPrevDifficulty })
       nav.navigate("Loading", { difficulty: difficulty });
     } else if (focus) {
       setLastFocus(focus);
+      setNextFocus(difficulty);
       setFocus(null);
     } else {
       setFocus(difficulty);
@@ -143,6 +145,8 @@ export function Difficulty({ setRoutedGame, prevDifficulty, setPrevDifficulty })
         mediumYPos.value = Animate.withTiming(0, {duration: 500});
       }
       setLastFocus(null);
+      setFocus(nextFocus);
+      setNextFocus(null);
     }
   }, [focus]);
   //fetch from our settings (BUGGY WHEN BOTH TRUE)
