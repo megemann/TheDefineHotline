@@ -41,33 +41,30 @@ export function Keypad({setVisible}) {
       backgroundColor.value = "#42ab46ff";
       scale.value = Animate.withTiming(7, { duration: fullWait });
       yPos.value = Animate.withTiming(-50, { duration: fullWait }, () => {
-        rotate.value = Animate.withTiming(45, { duration: halfRotate }, () => {
-          rotate.value = Animate.withTiming(-45, { duration: fullRotate }, () => {
-            rotate.value = Animate.withTiming(0, { duration: halfRotate }, () => {
-              rotate.value = Animate.withTiming(0, { duration: fullRotate }, () => {
-                rotate.value = Animate.withTiming(45, { duration: halfRotate }, () => {
-                  rotate.value = Animate.withTiming(-45, { duration: fullRotate }, () => {
-                    rotate.value = Animate.withTiming(0, { duration: halfRotate }, () => {
-                      rotate.value = Animate.withTiming(0, { duration: fullRotate }, () => {
-                        scale.value = Animate.withTiming(150, { duration: fullWait*2 })
-                        yPos.value = Animate.withTiming(20, { duration: fullWait*2 }, () => {
-                              scale.value = 1;
-                              yPos.value = 0;
-                              rotate.value = 0;
-                              backgroundColor.value = "#42ab469c";
-                        })
-                });
-                });
-                });
-              }) 
-        });
-        });
-        });
-        });
+        rotate.value = Animate.withRepeat(
+          Animate.withSequence(
+            Animate.withTiming(45, { duration: halfRotate }), 
+            Animate.withTiming(-45, { duration: fullRotate }), 
+            Animate.withTiming(0, { duration: halfRotate }),
+            Animate.withTiming(0, { duration: fullRotate })
+          ), 2 /*# of reps*/,
+          false /*reverse*/,
+          () => {
+            scale.value = Animate.withTiming(150, { duration: fullWait*2 })
+            yPos.value = Animate.withTiming(20, { duration: fullWait*2 }, () => {
+                  scale.value = 1;
+                  yPos.value = 0;
+                  rotate.value = 0;
+                  backgroundColor.value = "#42ab469c";
+            })
+          },
+        )
       });
+
     }
   }, [trigger]);
 
+  //if the call button is pressed, start checking if the navigation needs to run
     React.useEffect(() => {
       if (trigger) {
         const checker = setInterval(() => {
@@ -78,7 +75,6 @@ export function Keypad({setVisible}) {
         }, 100);
         return () => clearInterval(checker);
       }
-
     }, [trigger]);
 
   return (
