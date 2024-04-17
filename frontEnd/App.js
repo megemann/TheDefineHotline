@@ -197,11 +197,11 @@ export default function App() {
             <SafeAreaView style={{ flex: 1 }}>
               {isFontLoaded && (
                 <Stack.Navigator
-                  screenOptions={{ headerShown: false, animation: "none" }}
+                  screenOptions={{ headerShown: false, animation: "fade_from_bottom" }}
                   initalRouteName="Home"
                 >
                   <Stack.Screen name="Home" component={Home} />
-                  <Stack.Screen name="Difficulty">
+                  <Stack.Screen name="Difficulty" >
                     {() => (
                       <Difficulty
                         setRoutedGame={setRoutedGame}

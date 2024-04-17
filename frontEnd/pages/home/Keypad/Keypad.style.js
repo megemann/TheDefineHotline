@@ -17,6 +17,10 @@ export const s = StyleSheet.create({
     borderColor: "black",
     backgroundColor: "#42ab469c",
     opacity: 1,
+    zIndex: 999,
+  },
+  callButtonContainer: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },

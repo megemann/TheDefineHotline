@@ -26,7 +26,7 @@ export const s = StyleSheet.create({
     borderColor: "black",
     borderWidth: 3,
     backgroundColor: "#827C7C",
-    zIndex: 999,
+    zIndex: 998,
   },
   avatarButton: {
     top: 17,
@@ -55,7 +55,7 @@ export const s = StyleSheet.create({
   menu: {
     marginTop: 0,
     marginLeft: 14,
-    zIndex: 998,
+    zIndex: 997,
   },
   menuItem: {
     position: "absolute",
@@ -76,7 +76,7 @@ export const s = StyleSheet.create({
     elevation: 16,
     borderColor: "black",
     borderWidth: 3,
-    zIndex: 998,
+    zIndex: 997,
   },
   menuTouchable: {
     flex: 1,
@@ -86,6 +86,6 @@ export const s = StyleSheet.create({
   menuIcon: {
     width: 30,
     height: 30,
-    zIndex: 998,
+    zIndex: 997,
   },
 });
