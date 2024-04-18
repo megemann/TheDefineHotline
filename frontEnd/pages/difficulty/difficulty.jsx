@@ -67,6 +67,7 @@ export function Difficulty({ setRoutedGame, prevDifficulty, setPrevDifficulty })
 
   const handlePress = (difficulty) => {
     if (focus == difficulty) {
+      //transition out of page
       if (difficulty == "easy") {
         easyScale.value = Animate.withTiming(6, { duration: 500 });
       } else if (difficulty == "medium") {
@@ -80,15 +81,18 @@ export function Difficulty({ setRoutedGame, prevDifficulty, setPrevDifficulty })
       setPrevDifficulty(difficulty);
       nav.navigate("Loading", { difficulty: difficulty });
     } else if (focus) {
+      //if other button was clicked, focus that button
       setLastFocus(focus);
       setNextFocus(difficulty);
       setFocus(null);
     } else {
+      //beginning focus
       setFocus(difficulty);
     }
   };
 
   React.useEffect(() => {
+    //enlarge focused button and move other 2 accordingly
     if (focus == "easy") {
         easyScale.value = Animate.withTiming(1.65, {duration: 500});
         easyZIndex.value = 2;
@@ -124,6 +128,7 @@ export function Difficulty({ setRoutedGame, prevDifficulty, setPrevDifficulty })
         hardXPos.value = Animate.withTiming(0, {duration: 500});
         hardYPos.value = Animate.withTiming(0, {duration: 500});
       } else if (lastFocus == "medium") {
+        //special case, other 2 move differently 
         mediumXPos.value = Animate.withTiming(0, {duration: 500});
         mediumYPos.value = Animate.withTiming(0, {duration: 500});
         mediumScale.value = Animate.withTiming(1, {duration: 500},() => {

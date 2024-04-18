@@ -42,7 +42,4 @@ export const s = StyleSheet.create({
         justifyContent: "space-between",
         flexDirection: "row",
     },
-    buttonTxt: {
-
-    }
 })

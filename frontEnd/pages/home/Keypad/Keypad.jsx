@@ -38,6 +38,7 @@ export function Keypad({setVisible}) {
 
   React.useEffect(() => {
     if (trigger) {
+      //call button shake and grow animation
       backgroundColor.value = "#42ab46ff";
       scale.value = Animate.withTiming(7, { duration: fullWait });
       yPos.value = Animate.withTiming(-50, { duration: fullWait }, () => {

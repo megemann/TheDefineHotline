@@ -7,6 +7,7 @@ import { View, Image } from "react-native";
 export function LoadingKeypad({ isLoaded, setRan, setDone}) {
     const dialingRef = React.useRef(null);
 
+    //array of all animation colors
     const animatedColors = 
     [
     Animate.useSharedValue("#BDBDBD"), 
@@ -22,64 +23,17 @@ export function LoadingKeypad({ isLoaded, setRan, setDone}) {
     Animate.useSharedValue("#42ab469c"),
     ]
 
-    const animatedColorStyles = [
-        Animate.useAnimatedStyle(() => {
+    // TODO: check to see if worked
+    let animatedColorStyles = [];
+    for (let i = 0; i < animatedColors.length; i++) {
+        animatedColorStyles.push(Animate.useAnimatedStyle(() => {
             return {
-                backgroundColor: animatedColors[0].value
+                backgroundColor: animatedColors[i].value
             }
-        }),
-        Animate.useAnimatedStyle(() => {
-            return {
-                backgroundColor: animatedColors[1].value
-            }
-        }),
-        Animate.useAnimatedStyle(() => {
-            return {
-                backgroundColor: animatedColors[2].value
-            }
-        }),
-        Animate.useAnimatedStyle(() => {
-            return {
-                backgroundColor: animatedColors[3].value
-            }
-        }),
-        Animate.useAnimatedStyle(() => {
-            return {
-                backgroundColor: animatedColors[4].value
-            }
-        }),
-        Animate.useAnimatedStyle(() => {
-            return {
-                backgroundColor: animatedColors[5].value
-            }
-        }),
-        Animate.useAnimatedStyle(() => {
-            return {
-                backgroundColor: animatedColors[6].value
-            }
-        }),
-        Animate.useAnimatedStyle(() => {
-            return {
-                backgroundColor: animatedColors[7].value
-            }
-        }),
-        Animate.useAnimatedStyle(() => {
-            return {
-                backgroundColor: animatedColors[8].value
-            }
-        }),
-        Animate.useAnimatedStyle(() => {
-            return {
-                backgroundColor: animatedColors[9].value
-            }
-        }),
-        Animate.useAnimatedStyle(() => {
-            return {
-                backgroundColor: animatedColors[10].value
-            }
-        }),
-    ]
+        }))
+    }
     
+    //creates the interval that randomly 'pushes' a button
     React.useEffect(() => {
         const dialing = setInterval(() => {
             let random = Math.floor(Math.random() * 9);
@@ -89,9 +43,12 @@ export function LoadingKeypad({ isLoaded, setRan, setDone}) {
             setRan(true);
             setRan(false);
         }, 350);
+
+        //reference so we can later clear
         dialingRef.current = dialing;
     }, []);
 
+    //once the content is loaded, start the exiting animations
     React.useEffect(() => {
         if (isLoaded) {
             const ref = dialingRef.current;

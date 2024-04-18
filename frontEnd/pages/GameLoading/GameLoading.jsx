@@ -13,7 +13,7 @@ export function GameLoading({ isLoaded }) {
   //will look better with animations
   const { params } = useRoute();
 
-  const [ran, setRan] = React.useState(false);
+  const [buttonPushed, setButtonPushed] = React.useState(false);
   const [done, setDone] = React.useState(false);
   const [currText, setCurrText] = React.useState("");
   const subText = params.difficulty;
@@ -33,6 +33,8 @@ export function GameLoading({ isLoaded }) {
       ]
     };
   })
+
+  //makes the screen appear later to not interupt transition
   React.useEffect(() => {
     screenOpacity.value = Animate.withTiming(1, { 
       duration: 1000, 
@@ -40,8 +42,9 @@ export function GameLoading({ isLoaded }) {
     });
   }, [])
 
+  //runs every time a button is pressed in the animation
   React.useEffect(() => {
-    if (ran) {
+    if (buttonPushed) {
       if (!done) {
         let tempText = currText;
         if (tempText.length === loadingText.length) {
@@ -52,8 +55,9 @@ export function GameLoading({ isLoaded }) {
         }
       }
     }
-  }, [ran])
+  }, [buttonPushed])
 
+  //runs when the call button is pressed in the animation
   React.useEffect(() => {
     if (done) {
       setCurrText("CALLING...");
@@ -75,7 +79,7 @@ export function GameLoading({ isLoaded }) {
     <Animated.View style={[s.container, screenStyle]}>
       <Txt style={s.text}> {currText} </Txt>
       {(done && (<Txt style={{color: color}}> {subText} mode</Txt>)) || (<Txt>{" "}</Txt>)}
-      <LoadingKeypad isLoaded={isLoaded} setDone={setDone} setRan={setRan}/>
+      <LoadingKeypad isLoaded={isLoaded} setDone={setDone} setRan={setButtonPushed}/>
     </Animated.View>
   );
 }

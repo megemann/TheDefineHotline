@@ -50,8 +50,10 @@ export function Home() {
     nav.navigate(title);
   }
 
+  //menu dropdown animation
   React.useEffect(() => {
     if (visible) {
+      //menu is opening
       topScoresAnimY.value = Animate.withTiming(20, { duration: 300 });
       settingsAnimY.value = Animate.withTiming(97, { duration: 400 });
       leaderboardAnimY.value = Animate.withTiming(174, { duration: 500 });
@@ -59,6 +61,7 @@ export function Home() {
       settingsOpacity.value = Animate.withTiming(1, { duration: 400 });
       leaderboardOpacity.value = Animate.withTiming(1, { duration: 500 });
     } else {
+      //menu is closing
       topScoresAnimY.value = Animate.withTiming(-57, { duration: 300 }, () => {
         topScoresOpacity.value = 0;
       });
