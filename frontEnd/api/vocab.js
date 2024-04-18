@@ -1,6 +1,5 @@
 import axios from 'axios';
-const KEYDICT = "5e68d725-07a7-4b21-b218-6fd6df63269d";
-const KEYTHES = "d09b8761-e751-45c6-be71-e8a5b31d70c3";
+
 
 export class WordAPI {
     static async fetchGameContent() {
@@ -13,7 +12,7 @@ export class WordAPI {
         let count = 0;
         //for each word get the definition
         for (let i = 0; i < 15; i++) { //15
-            const response = (await axios.get(`https://dictionaryapi.com/api/v3/references/collegiate/json/${randomWords[i]}?key=${KEYDICT}`)).data[0];
+            const response = (await axios.get(`https://dictionaryapi.com/api/v3/references/collegiate/json/${randomWords[i]}?key=${process.env.EXPO_PUBLIC_DICT_API_KEY}`)).data[0];
             let type = typeof response;
             //returns either undefined, or a string list that contains similarly spelled words
             if (type === "undefined" || type === "string" || typeof response[0] === "string") { 

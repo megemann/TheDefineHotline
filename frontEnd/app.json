@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "frontEnd",
-    "slug": "frontEnd",
+    "slug": "the-define-hotline",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,16 +15,30 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.megemann.thedefinehotline"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.megemann.thedefinehotline"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1daa38df-5825-4277-b301-9df435cee2bf"
+      }
+    },
+    "owner": "megemann",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/1daa38df-5825-4277-b301-9df435cee2bf"
     }
   }
 }
