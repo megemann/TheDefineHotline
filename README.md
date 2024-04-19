@@ -4,7 +4,7 @@
 ## Table of Contents
 * [Getting Started](#Getting-Started)
 * [Demo](#Demo)
-* [Features/Highlights](#Features/Highlights)
+* [Features/Highlights](#Features-&-Highlights)
 * [API Reference](#API-Reference)
 * [Outline](#Outline)
 
@@ -51,7 +51,7 @@ Full demo is located [here](https://github.com/megemann/TheDefineHotline/display
 
 </div>
 
-## Features/Highlights
+## Features & Highlights
 #### Animations
 
 <div align="center">
