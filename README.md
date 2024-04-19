@@ -1,12 +1,12 @@
-# ADD BANNER
+![banner](https://github.com/megemann/TheDefineHotline/assets/89821947/8207b37a-a9db-4e85-8188-ff58b74645c0)
 # The Define Hot-line
 'The Define Hot-line' is a fun vocabulary game that uses random words and definitions to test your vocabulary skills. You have a varying amount of time to pair a definition to a word, and the objective is to get the highest streak possible! There are three modes: Easy, Medium, and Hard; each mode gives you respectively 15, 10, and 5 seconds to answer. This project makes use of React Native, React Native Reanimated, as well as a few API's and a collection of other libraries.
 ## Table of Contents
-* [Getting Started](##Getting-Started)
-* [Demo](##Demo)
-* [Features/Highlights](##Features/Highlights)
-* [API Reference](##API-Reference)
-* [Outline](##Outline)
+* [Getting Started](#Getting-Started)
+* [Demo](#Demo)
+* [Features/Highlights](#Features/Highlights)
+* [API Reference](#API-Reference)
+* [Outline](#Outline)
 
 ## Getting Started
 This project can either be run locally or access through Expo's online platform
@@ -16,8 +16,6 @@ Running this project requires the installation of '[Expo Go][expoGo]', a mobile 
 
 Test most recent production version here:
 [V1.0][prodbuild]
-
-
 
 ### Installation
 1. Clone the repo
@@ -45,31 +43,45 @@ Note: Deploying this project locally still requires the ['Expo Go'][expoGo] appl
 
 
 ## Demo
+<div align="center">
+    
+![Untitled video - Made with Clipchamp](https://github.com/megemann/TheDefineHotline/assets/89821947/bead94df-74ea-492e-a7c6-c684233711fa)
 
-Insert gif or link to demo This section will be the link to the whole video
+Full demo is located [here](https://github.com/megemann/TheDefineHotline/display/Videos-Gifs/DefineHotlineDemo.mp4)
+
+</div>
 
 ## Features/Highlights
 #### Animations
-Short side bar and Gifs
+
+<div align="center">
+    
+Loading Screen:
+![LoadingScreenGIF](https://github.com/megemann/TheDefineHotline/assets/89821947/64dbb780-977a-4bf9-8d86-620f3e49a18b)
+Difficulty Screen:
+![DifficultyGIF](https://github.com/megemann/TheDefineHotline/assets/89821947/4f773bc3-3d8d-4d30-89fd-d5b5b4246676)
+
+</div>
+
 #### Async Storage
 On native applications, we can use a devices Asyncronous storage to store local information personalized to the user. In 'The Define Hotline' this is used with Settings, Top Scores, and Attempt tracking. This allows the saving of this information even if the application is reloaded.
 GIFs
 #### Settings
-- Top Score Tracking 
+Examples of all of the following are found [here](https://github.com/megemann/TheDefineHotline/display/Videos-Gifs)
+- Top Score Tracking
 - High Score Indicator
 - Constant Difficulty
 - Random Difficulty
-- Reset All Scores
+- Resetting Scores
 
 #### Definitions and Words
-Fetch from API (more notes on that and link to API section)
+The definitions and words both come from different [API's](#API-Reference). This data is then evaluated to filter out the undefined or faulty definitions to prevent it from having to be handled later.
 
-#### Minor Features
+#### Honorable Mentions
 - React Navigation
 - Contexts
 - Specialized Fonts
 - Screen size friendly design
-
 
 ## API Reference
 
@@ -104,7 +116,7 @@ To make this project, I familiarized myself with the sublibary of React for nati
 ### Figma, CSS, React Native Reanimated
 As a first draft I created a 'figma' project to design the page, so I would have something to reference when styling. I then converted to CSS, trying to replicate the project the best I could using the flexbox system as well as trying to keep components friendly for any size screen. After finalizing my design of the rest of the project, I then moved to on animating transitions and other components, which mostly takes use of CSS's 'transform' options that allow for easy displacement of objects.
 
-INSERT PICTURE OF FIGMA HERE
+![figma](https://github.com/megemann/TheDefineHotline/assets/89821947/1c5c620f-3783-4b99-896e-6186760afe1b)
 
 ### Technologies
 A number of Libraries were used in this project in order to streamline development. These include:
@@ -130,10 +142,10 @@ A number of Libraries were used in this project in order to streamline developme
 
 ### Roadmap
 
-- More user customization (Avatar)
-- Leaderboards
-- Different modes (Word -> Definition, Lighting Rounds)
-- More/Higher quality animations
+- [ ] More user customization (Avatar)
+- [ ] Leaderboards
+- [ ] Different modes (Word -> Definition, Lighting Rounds)
+- [ ] More/Higher quality animations
 
 ### Skills Aquired
 
@@ -150,12 +162,18 @@ A number of Libraries were used in this project in order to streamline developme
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
+## Contact
+
+Austin Fairbanks - ajfairbanks2005@gmail.com - [LinkedIn](www.linkedin.com/in/ajf2005)
 
 ## Acknowledgements
-<a href="https://www.flaticon.com/free-icons/award" title="award icons">Award icons created by Freepik - Flaticon</a>
-<a href="https://www.flaticon.com/free-icons/settings" title="settings icons">Settings icons created by Freepik - Flaticon</a>
-<a href="https://www.flaticon.com/free-icons/leaderboard" title="leaderboard icons">Leaderboard icons created by Vector Stall - Flaticon</a>
-<a href="https://www.flaticon.com/free-icons/menu" title="menu icons">Menu icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/award" title="award icons">Award icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/settings" title="settings icons">Settings icons created by Freepik - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/leaderboard" title="leaderboard icons">Leaderboard icons created by Vector Stall - Flaticon</a>
+- <a href="https://www.flaticon.com/free-icons/menu" title="menu icons">Menu icons created by Freepik - Flaticon</a>
+- [Merriam Webster (Definitions API)][dictionaryAPI]
+- [Random Words API][randomWords]
+- [Figma][figma]
 
 [prodbuild]: <https://expo.dev/preview/update?message=V1.0&updateRuntimeVersion=1.0.0&createdAt=2024-04-18T14%3A26%3A36.768Z&slug=exp&projectId=1daa38df-5825-4277-b301-9df435cee2bf&group=bf04e7c5-c219-403e-af4f-6bf581f3e14f> "Project in Expo"
 [dictionaryAPI]: <https://dictionaryapi.com/> "Dictionary API"
@@ -170,3 +188,5 @@ A number of Libraries were used in this project in order to streamline developme
 [reactNativeReanimated]: <https://docs.swmansion.com/react-native-reanimated/> "reanimated"
 [reactNativeSafeArea]: <https://reactnative.dev/docs/safeareaview> "safe area"
 [reactNavigation]: <https://reactnavigation.org/> "React Navigation"
+[randomWords]: <https://random-word-api.herokuapp.com/home> "Random Words"
+[figma]: <https://www.figma.com/> "Figma"
