@@ -47,7 +47,7 @@ Note: Deploying this project locally still requires the ['Expo Go'][expoGo] appl
     
 ![Untitled video - Made with Clipchamp](https://github.com/megemann/TheDefineHotline/assets/89821947/bead94df-74ea-492e-a7c6-c684233711fa)
 
-Full demo is located [here](https://github.com/megemann/TheDefineHotline/display/Videos-Gifs/DefineHotlineDemo.mp4)
+Full demo is located [here](https://github.com/megemann/tree/main/TheDefineHotline/display/Videos-Gifs/DefineHotlineDemo.mp4)
 
 </div>
 
@@ -67,7 +67,7 @@ Difficulty Screen:
 On native applications, we can use a devices Asyncronous storage to store local information personalized to the user. In 'The Define Hotline' this is used with Settings, Top Scores, and Attempt tracking. This allows the saving of this information even if the application is reloaded.
 GIFs
 #### Settings
-Examples of all of the following are found [here](https://github.com/megemann/TheDefineHotline/display/Videos-Gifs)
+Examples of all of the following are found [here](https://github.com/megemann/TheDefineHotline/tree/main/display/Videos-Gifs)
 - Top Score Tracking
 - High Score Indicator
 - Constant Difficulty
