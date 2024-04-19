@@ -65,7 +65,7 @@ Difficulty Screen:
 
 #### Async Storage
 On native applications, we can use a devices Asyncronous storage to store local information personalized to the user. In 'The Define Hotline' this is used with Settings, Top Scores, and Attempt tracking. This allows the saving of this information even if the application is reloaded.
-GIFs
+
 #### Settings
 Examples of all of the following are found [here](https://github.com/megemann/TheDefineHotline/tree/main/display/Videos-Gifs)
 - Top Score Tracking
