@@ -175,7 +175,7 @@ Austin Fairbanks - ajfairbanks2005@gmail.com - [LinkedIn](www.linkedin.com/in/aj
 - [Random Words API][randomWords]
 - [Figma][figma]
 
-[prodbuild]: <https://expo.dev/preview/update?message=V1.0&updateRuntimeVersion=1.0.0&createdAt=2024-04-18T14%3A26%3A36.768Z&slug=exp&projectId=1daa38df-5825-4277-b301-9df435cee2bf&group=bf04e7c5-c219-403e-af4f-6bf581f3e14f> "Project in Expo"
+[prodbuild]: <https://expo.dev/preview/update?message=Update%20for%20SDK%2051&updateRuntimeVersion=1.0.0&createdAt=2024-08-29T01%3A14%3A56.039Z&slug=exp&projectId=1daa38df-5825-4277-b301-9df435cee2bf&group=6d7944c6-b93a-41b1-a01d-6d4c6e779b45> "Project in Expo"
 [dictionaryAPI]: <https://dictionaryapi.com/> "Dictionary API"
 [expoGo]: <https://expo.dev/go> "Expo Go"
 [expo]: <https://expo.dev/> "Expo"
